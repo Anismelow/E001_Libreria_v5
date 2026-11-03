@@ -86,6 +86,7 @@ public class CategoriaServicioImp implements CategoriaServicio {
 		try {
 			categoriaRepo.resetearAutoInc();
 		} catch (Exception e) {
+			e.printStackTrace();
 		}
 	}
 
@@ -93,7 +94,8 @@ public class CategoriaServicioImp implements CategoriaServicio {
 	public void insertarConId(Categoria cat) {
 		try {
 			categoriaRepo.insertarConId(cat.getId(), cat.getNombre());
-		} catch (Exception e) {
+		}  catch (Exception e) {
+			e.printStackTrace();
 		}
 	}
 

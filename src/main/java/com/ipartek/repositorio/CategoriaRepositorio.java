@@ -15,11 +15,10 @@ public interface CategoriaRepositorio extends JpaRepository<Categoria, Integer>{
 
     @Modifying 
     @Transactional 
-    @Query(value="Insert into categorias values(:id, :cat)", nativeQuery=true)
-    public void insertarConId(@Param(value = "id")Integer id,@Param(value = "cat")String cat);
+@Query(value = "insert into categorias (id, nombre) values (:id, :cat)", nativeQuery = true)    public void insertarConId(@Param(value = "id")Integer id,@Param(value = "cat")String cat);
 
-    @Modifying 
-    @Transactional 
+    @Modifying
+    @Transactional  
     @Query(value = "ALTER TABLE categorias AUTO_INCREMENT = 1 ", nativeQuery = true)
     public void resetearAutoInc();
 
