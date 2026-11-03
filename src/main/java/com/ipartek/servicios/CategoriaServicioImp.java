@@ -9,8 +9,8 @@ import com.ipartek.modelo.Categoria;
 import com.ipartek.repositorio.CategoriaRepositorio;
 
 @Service
-public class CategoriaServicioImp implements CategoriaServicio{
-	
+public class CategoriaServicioImp implements CategoriaServicio {
+
 	@Autowired
 	private CategoriaRepositorio categoriaRepo;
 
@@ -35,9 +35,9 @@ public class CategoriaServicioImp implements CategoriaServicio{
 	@Override
 	public Categoria insertar(Categoria cat) {
 		try {
-			if (cat.getId()==null) {
+			if (cat.getId() == null) {
 				return categoriaRepo.save(cat);
-			}else {
+			} else {
 				return null;
 			}
 		} catch (Exception e) {
@@ -50,7 +50,7 @@ public class CategoriaServicioImp implements CategoriaServicio{
 		try {
 			if (categoriaRepo.existsById(cat.getId())) {
 				return categoriaRepo.save(cat);
-			}else {
+			} else {
 				return null;
 			}
 		} catch (Exception e) {
@@ -63,8 +63,8 @@ public class CategoriaServicioImp implements CategoriaServicio{
 		try {
 			if (categoriaRepo.existsById(id)) {
 				categoriaRepo.deleteById(id);
-				 return true;
-			}else {
+				return true;
+			} else {
 				return false;
 			}
 		} catch (Exception e) {
@@ -80,5 +80,31 @@ public class CategoriaServicioImp implements CategoriaServicio{
 			return null;
 		}
 	}
+
+	@Override
+	public void resetearAutoIncrement() {
+		try {
+			categoriaRepo.resetearAutoInc();
+		} catch (Exception e) {
+		}
+	}
+
+	@Override
+	public void insertarConId(Categoria cat) {
+		try {
+			categoriaRepo.insertarConId(cat.getId(), cat.getNombre());
+		} catch (Exception e) {
+		}
+	}
+
+		@Override
+	public Integer contarRegistros() {
+		try {
+			return (int) categoriaRepo.count();
+		} catch (Exception e) {
+			return null;
+		}
+	}
+
 
 }
