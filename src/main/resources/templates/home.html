@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<title>Bar Labea</title>
+	<link rel="stylesheet" href="styles/styles.css">
+</head>
+
+<body>
+
+	<header th:include="includes/plantilla.html::cabecera"></header>
+
+	<nav th:include="includes/plantilla.html::menu"></nav>
+
+	<main>
+		<section>
+			
+			<div th:if="${f_mensaje}"> 	
+				<h2 th:text="${f_mensaje}"></h2>
+			</div>
+
+
+			<form method="post" th:action="@{/insertarLibro}" th:object="${objLibro}">
+				<label>Titulo</label><br>
+				<input type="text" th:field="*{titulo}" required maxlength="90"><br>
+
+				<label>Precio</label><br>
+				<input type="number" th:field="*{precio}" required min="0" max="999.99" step="0.01"><br>
+
+				<label>Autor</label><br>
+				<select th:field="*{autorFK.id}">
+					<option th:each="elem : ${listaAutores}"
+						 th:value="${elem.id}" 
+						 th:text="${elem.nombre}">
+					</option>
+				</select><br>
+
+				<label>Tapa dura</label><br>
+				<input type="checkbox" th:field="*{esTapaDura}"><br>
+
+				<input type="submit" value="Agregar">
+			</form>
+
+
+			<table border="1px solid black">
+				<thead>
+					<tr>
+						<th>ID</th>
+						<th>Título</th>
+						<th>Autor</th>
+						<th>Precio</th>
+						<th>Tapa Dura</th>
+						<th>Opciones</th>
+					</tr>
+				</thead>
+				<thead>
+					<tr th:each="elem : ${listaLibros}">
+						<td th:text="${elem.id}">1</td>
+						<td th:text="${elem.titulo}">esdla</td>
+						<td th:text="${elem.autorFK.nombre}">Tolkien</td>
+						<td th:text="${elem.precio + ' €' } ">22</td>
+						<td th:text="${elem.esTapaDura?'Si':'No'}">Si</td>
+						<td>
+							<a th:href="@{/borrarLibro(id=${elem.id})}">Borrar</a>
+							<a th:href="@{/modificarLibro(id=${elem.id})}">Modificar</a>
+						</td>
+					</tr>
+				</thead>
+			</table>
+
+		</section>
+	</main>
+
+	<footer th:include="includes/plantilla.html::pie"></footer>
+
+</body>
+
+</html>

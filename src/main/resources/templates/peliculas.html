@@ -1,0 +1,93 @@
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<title>Bar Labea</title>
+	<link rel="stylesheet" href="styles/styles.css">
+</head>
+
+<body>
+
+	<header th:include="includes/plantilla.html::cabecera"></header>
+
+	<nav th:include="includes/plantilla.html::menu"></nav>
+
+	<main>
+		<section>
+
+			<div th:if="${f_mensaje}">
+				<h2 th:text="${f_mensaje}"></h2>
+			</div>
+
+			<form method="post" th:action="@{/insertarPelicula}" th:object="${objPelicula}" >
+				<label>Título</label><br>
+				<input type="text" th:field="*{titulo}" required maxlength="90"><br>
+
+				<label>Duración (min)</label><br>
+				<input type="number" th:field="*{duracion}" required min="0" step="1"><br>
+
+				<label>Estreno</label><br>
+				<input type="date" th:field="*{estreno}" required><br>
+
+				<label>Categoría</label><br>
+				<select th:field="*{categoriaFK.id}">
+					<option th:each="elem : ${listaCategorias}" th:value="${elem.id}" th:text="${elem.nombre}">opcion
+					</option>
+				</select><br>
+
+				<input type="submit" value="Agregar">
+			</form>
+
+			<form method="post" th:action="@{/borrarMultiple}">
+				<table border="1px solid black">
+					<thead>
+						<tr>
+							<th>
+								<input type="submit" value="Borrar">
+							</th>
+							<th>ID</th>
+							<th>Título</th>
+							<th>Duración</th>
+							<th>Estreno</th>
+							<th>Categoría</th>
+							<th>Opciones</th>
+						</tr>
+					</thead>
+					<tbody>
+						<tr th:each="elem : ${listaPeliculas}">
+							<td>
+								<input type="checkbox" name="multi" th:value="${elem.id}">
+							</td>
+							<td th:text="${elem.id}">1</td>
+							<td th:text="${elem.titulo}">El Padrino</td>
+							<td th:text="${elem.duracion}">175 min</td>
+							<td th:text="${elem.estreno}">1972-03-24</td>
+							<td th:text="${elem.categoriaFK.nombre}">Drama</td>
+							<td>
+								<a th:href="@{/borrarPelicula(id=${elem.id})}">Borrar</a>
+								<a href="#">Modificar</a>
+							</td>
+						</tr>
+
+						<tr>
+							<td>
+								<input type="submit" value="Borrar">
+							</td>
+							<td colspan="6">
+
+							</td>
+						</tr>
+					</tbody>
+				</table>
+			</form>
+
+		</section>
+	</main>
+
+	<footer th:include="includes/plantilla.html::pie"></footer>
+
+</body>
+
+</html>

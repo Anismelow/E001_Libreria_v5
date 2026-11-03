@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<title>Bar Labea</title>
+	<link rel="stylesheet" href="styles/styles.css">
+</head>
+
+<body>
+
+	<header th:include="includes/plantilla.html::cabecera"></header>
+
+	<nav th:include="includes/plantilla.html::menu"></nav>
+
+	<main>
+		<section>
+
+
+			<form method="post" th:action="@{/modificarLibro}" th:object="${objLibro}">
+				<label>Id (Hidden)</label><br>
+				<input type="text" th:field="*{id}" required readonly><br>
+				
+				<label>Titulo</label><br>
+				<input type="text" th:field="*{titulo}" required maxlength="90"><br>
+
+				<label>Precio</label><br>
+				<input type="number" th:field="*{precio}" required min="0" max="999.99" step="0.01"><br>
+
+				<label>Autor</label><br>
+				<select th:field="*{autorFK.id}">
+					<option th:each="elem : ${listaAutores}"
+						 th:value="${elem.id}" 
+						 th:text="${elem.nombre}">
+					</option>
+				</select><br>
+
+				<label>Tapa dura</label><br>
+				<input type="checkbox" th:field="*{esTapaDura}"><br>
+
+				<input type="submit" value="Agregar">
+			</form>
+
+
+		</section>
+	</main>
+
+	<footer th:include="includes/plantilla.html::pie"></footer>
+
+</body>
+
+</html>
